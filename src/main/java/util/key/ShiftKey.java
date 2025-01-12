@@ -1,6 +1,6 @@
 package util.key;
 
-public class ShiftKey implements Key {
+public class ShiftKey implements IKey {
     private String keyString = null;
     private KeyType keyType = null;
     private int key = -1;
@@ -15,8 +15,8 @@ public class ShiftKey implements Key {
         this.keyType = KeyType.parse(type);
 
         // update bounds as key values change
-        if (this.key < 0 || this.key > 125) {
-            throw new IllegalArgumentException(keyString + " must be between 0 and 125");
+        if (this.key < 0 || this.key > 25) {
+            throw new IllegalArgumentException(keyString + " must be between 0 and 25");
         }
 
     }

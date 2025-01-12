@@ -1,20 +1,24 @@
-package algo.ShiftCipher;
+package algo.SubstitutionCipher;
 
 import algo.Cipher;
 import algo.ICipher;
 import util.CharInt;
 import util.key.ShiftKey;
+import util.key.SubstitutionKey;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Path;
 
-public class ShiftCipher implements ICipher {
-    private ShiftKey key;
+public class SubstitutionCipher implements ICipher {
+    private SubstitutionKey key;
 
     private static final int letterMod = 26;
     private static final int digitMod = 10;
 
-    public ShiftCipher(ShiftKey key) {
+    public SubstitutionCipher(SubstitutionKey key) {
         this.key = key;
     }
 
@@ -37,6 +41,7 @@ public class ShiftCipher implements ICipher {
         return output;
     }
 
+
     @Override
     public String encrypt(Path plainTextFile) {
         String plainText = fileToString(plainTextFile);
@@ -47,22 +52,26 @@ public class ShiftCipher implements ICipher {
             char newChar = ' ';
             int encodedChar = CharInt.toInt(plainText.charAt(i));
 
-            if (encodedChar == -1) {
+            if (encodedChar == -1 || encodedChar > 25) {
                 newChar = plainText.charAt(i);
                 cipherText += newChar;
                 continue;
             }
 
-            if (encodedChar >= 100 && encodedChar < 200) {
-                newCharInt = (encodedChar + key.getKey()) % (100 + letterMod);
-                if (newCharInt < 100) {
-                    newCharInt += 100;
-                }
-            } else if (encodedChar >= 200) {
-                newCharInt = (((encodedChar - 200) + key.getKey()) % digitMod) + 200;
-            } else {
-                newCharInt = (encodedChar + key.getKey()) % letterMod;
-            }
+            newCharInt = (encodedChar + key.getForwardValue(encodedChar)) % letterMod;
+
+
+//            if (encodedChar >= 100 && encodedChar < 200) {
+//                newCharInt = (encodedChar + key.getKey()) % (100 + letterMod);
+//                if (newCharInt < 100) {
+//                    newCharInt += 100;
+//                }
+//            } else if (encodedChar >= 200) {
+//                newCharInt = (((encodedChar - 200) + key.getKey()) % digitMod) + 200;
+//            } else {
+//                newCharInt = (encodedChar + key.getKey()) % letterMod;
+//            }
+
             newChar = CharInt.toChar(newCharInt);
             cipherText += newChar;
         }
@@ -84,23 +93,25 @@ public class ShiftCipher implements ICipher {
             char newChar = ' ';
 
             int encodedChar = CharInt.toInt(cipherText.charAt(i));
-            if (encodedChar == -1) {
+            if (encodedChar == -1 || encodedChar > 25) {
                 newChar = cipherText.charAt(i);
                 plainText += newChar;
                 continue;
             }
 
-            if (encodedChar >= 100 && encodedChar < 200) {
-                newCharInt = (((encodedChar - 100) + (letterMod - key.getKey())) % letterMod) + 100;
-            } else if (encodedChar >= 200) {
-                newCharInt = ((encodedChar - 200) + (digitMod - key.getKey())) % digitMod;
-                if (newCharInt < 0) {
-                    newCharInt = digitMod - (-newCharInt);
-                }
-                newCharInt += 200;
-            } else {
-                newCharInt = (encodedChar + (letterMod - key.getKey())) % letterMod;
-            }
+            newCharInt = (encodedChar + (letterMod - key.getBackwardValue(encodedChar))) % letterMod;
+
+//            if (decodedChar >= 100 && decodedChar < 200) {
+//                newCharInt = (((decodedChar - 100) + (letterMod - key.getKey())) % letterMod) + 100;
+//            } else if (decodedChar >= 200) {
+//                newCharInt = ((decodedChar - 200) + (digitMod - key.getKey())) % digitMod;
+//                if (newCharInt < 0) {
+//                    newCharInt = digitMod - (-newCharInt);
+//                }
+//                newCharInt += 200;
+//            } else {
+//                newCharInt = (decodedChar + (letterMod - key.getKey())) % letterMod;
+//            }
             newChar = CharInt.toChar(newCharInt);
             plainText += newChar;
         }
