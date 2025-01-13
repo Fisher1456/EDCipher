@@ -1,46 +1,23 @@
 package algo.SubstitutionCipher;
 
+import algo.Cipher;
 import algo.ICipher;
 import util.CharInt;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.file.Path;
 
-public class SubstitutionCipher implements ICipher {
+public class SubstitutionCipher extends Cipher implements ICipher {
     private final SubstitutionKey key;
-
-    private static final int letterMod = 26;
-    private static final int digitMod = 10;
 
     public SubstitutionCipher(SubstitutionKey key) {
         this.key = key;
     }
 
-    private static String fileToString(Path inputFile) {
-        StringBuilder builder = new StringBuilder();
-        try (FileReader fr = new FileReader(inputFile.toFile());
-             BufferedReader br = new BufferedReader(fr)) {
-            String str;
-
-            while ((str = br.readLine()) != null) {
-                builder.append(str).append("\n");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return builder.toString();
-    }
-
-
     @Override
     public String encrypt(Path plainTextFile) {
         String plainText = fileToString(plainTextFile);
 
-        String cipherText = "";
+        StringBuilder cipherText = new StringBuilder();
         for (int i = 0; i < plainText.length(); i++) {
             int newCharInt = -1;
             char newChar = ' ';
@@ -48,11 +25,11 @@ public class SubstitutionCipher implements ICipher {
 
             if (encodedChar == -1 || encodedChar > 25) {
                 newChar = plainText.charAt(i);
-                cipherText += newChar;
+                cipherText.append(newChar);
                 continue;
             }
 
-            newCharInt = (encodedChar + key.getForwardValue(encodedChar)) % letterMod;
+            newCharInt = (encodedChar + key.getForwardShift(encodedChar)) % letterMod;
 
 
 //            if (encodedChar >= 100 && encodedChar < 200) {
@@ -67,10 +44,10 @@ public class SubstitutionCipher implements ICipher {
 //            }
 
             newChar = CharInt.toChar(newCharInt);
-            cipherText += newChar;
+            cipherText.append(newChar);
         }
 
-        return cipherText;
+        return cipherText.toString();
     }
 
     @Override
@@ -81,7 +58,7 @@ public class SubstitutionCipher implements ICipher {
     }
 
     public String decrypt(String cipherText) {
-        String plainText = "";
+        StringBuilder plainText = new StringBuilder();
         for (int i = 0; i < cipherText.length(); i++) {
             int newCharInt = -1;
             char newChar = ' ';
@@ -89,11 +66,11 @@ public class SubstitutionCipher implements ICipher {
             int encodedChar = CharInt.toInt(cipherText.charAt(i));
             if (encodedChar == -1 || encodedChar > 25) {
                 newChar = cipherText.charAt(i);
-                plainText += newChar;
+                plainText.append(newChar);
                 continue;
             }
 
-            newCharInt = (encodedChar + (letterMod - key.getBackwardValue(encodedChar))) % letterMod;
+            newCharInt = (encodedChar + (letterMod - key.getBackwardShift(encodedChar))) % letterMod;
 
 //            if (decodedChar >= 100 && decodedChar < 200) {
 //                newCharInt = (((decodedChar - 100) + (letterMod - key.getKey())) % letterMod) + 100;
@@ -107,9 +84,9 @@ public class SubstitutionCipher implements ICipher {
 //                newCharInt = (decodedChar + (letterMod - key.getKey())) % letterMod;
 //            }
             newChar = CharInt.toChar(newCharInt);
-            plainText += newChar;
+            plainText.append(newChar);
         }
 
-        return plainText;
+        return plainText.toString();
     }
 }

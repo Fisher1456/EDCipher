@@ -1,42 +1,23 @@
 package algo.ShiftCipher;
 
+import algo.Cipher;
 import algo.ICipher;
 import util.CharInt;
 
-import java.io.*;
 import java.nio.file.Path;
 
-public class ShiftCipher implements ICipher {
+public class ShiftCipher extends Cipher implements ICipher {
     private final int shift;
 
-    private static final int letterMod = 26;
-    private static final int digitMod = 10;
-
     public ShiftCipher(ShiftKey key) {
-        shift = key.getKey();
-    }
-
-    private static String fileToString(Path inputFile) {
-        StringBuilder builder = new StringBuilder();
-        try (FileReader fr = new FileReader(inputFile.toFile());
-             BufferedReader br = new BufferedReader(fr)) {
-            String str;
-
-            while ((str = br.readLine()) != null) {
-                builder.append(str).append("\n");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return builder.toString();
+        shift = key.getForwardShift();
     }
 
     @Override
     public String encrypt(Path plainTextFile) {
         String plainText = fileToString(plainTextFile);
 
-        String cipherText = "";
+        StringBuilder cipherText = new StringBuilder();
         for (int i = 0; i < plainText.length(); i++) {
             int newCharInt = -1;
             char newChar = '!';
@@ -44,7 +25,7 @@ public class ShiftCipher implements ICipher {
 
             if (encodedChar == -1) {
                 newChar = plainText.charAt(i);
-                cipherText += newChar;
+                cipherText.append(newChar);
                 continue;
             }
 
@@ -59,10 +40,10 @@ public class ShiftCipher implements ICipher {
                 newCharInt = (encodedChar + shift) % letterMod;
             }
             newChar = CharInt.toChar(newCharInt);
-            cipherText += newChar;
+            cipherText.append(newChar);
         }
 
-        return cipherText;
+        return cipherText.toString();
     }
 
     @Override
@@ -73,7 +54,7 @@ public class ShiftCipher implements ICipher {
     }
 
     public String decrypt(String cipherText) {
-        String plainText = "";
+        StringBuilder plainText = new StringBuilder();
         for (int i = 0; i < cipherText.length(); i++) {
             int newCharInt = -1;
             char newChar = ' ';
@@ -81,7 +62,7 @@ public class ShiftCipher implements ICipher {
             int encodedChar = CharInt.toInt(cipherText.charAt(i));
             if (encodedChar == -1) {
                 newChar = cipherText.charAt(i);
-                plainText += newChar;
+                plainText.append(newChar);
                 continue;
             }
 
@@ -97,9 +78,9 @@ public class ShiftCipher implements ICipher {
                 newCharInt = (encodedChar + (letterMod - shift)) % letterMod;
             }
             newChar = CharInt.toChar(newCharInt);
-            plainText += newChar;
+            plainText.append(newChar);
         }
 
-        return plainText;
+        return plainText.toString();
     }
 }

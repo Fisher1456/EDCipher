@@ -14,15 +14,13 @@ public class ShiftKey implements IKey {
     public void setKey(String keyString, String type) {
         this.key = Integer.parseInt(keyString);
         this.keyType = KeyType.parse(type);
-
-        // update bounds as key values change
-        if (this.key < 0 || this.key > 25) {
-            throw new IllegalArgumentException(keyString + " must be between 0 and 25");
-        }
-
     }
 
-    public int getKey() {
+    public int getForwardShift() {
+        return this.key;
+    }
+
+    public int getBackwardShift() {
         return this.key;
     }
 }

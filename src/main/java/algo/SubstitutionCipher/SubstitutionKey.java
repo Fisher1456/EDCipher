@@ -39,11 +39,11 @@ public class SubstitutionKey extends Key implements IKey {
         }
     }
 
-    public int getForwardValue(int index) {
+    public int getForwardShift(int index) {
         return key.get(index);
     }
 
-    public int getBackwardValue(int value) {
+    public int getBackwardShift(int value) {
         for (int i = 0; i < key.size(); i++) {
             if (i + key.get(i) == value) {
                 return key.get(i);
