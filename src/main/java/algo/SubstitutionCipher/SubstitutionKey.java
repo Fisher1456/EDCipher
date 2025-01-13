@@ -21,16 +21,19 @@ public class SubstitutionKey extends Key implements IKey {
     public void setKey(String keyString, String type) {
         this.keyType = KeyType.parse(type);
         this.keyForward = new ArrayList<>();
-        this.keyBackward = new ArrayList<>(26);
+        this.keyBackward = new ArrayList<>();
+        for (int i = 0; i < Cipher.CAPITAL_MAX; i ++) {
+            keyBackward.add(0);
+        }
 
         StringBuilder tempKey = new StringBuilder();
         for (int i = 0; i < keyString.length(); i++) {
             if (keyString.charAt(i) == ' ') {
                 continue;
             } else if (keyString.charAt(i) == ',') {
-                int shift = WrapAround.wrap(Integer.parseInt(tempKey.toString()), Cipher.letterMod);
+                int shift = WrapAround.wrap(Integer.parseInt(tempKey.toString()), Cipher.CAPITAL_MAX);
                 keyForward.add(shift);
-                keyBackward.add(shift, shift - i);
+                keyBackward.set(shift, shift - i);
                 tempKey = new StringBuilder();
                 continue;
             }

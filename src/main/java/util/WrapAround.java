@@ -5,15 +5,21 @@ public final class WrapAround {
 
     }
 
-    public static int wrap(int input, int mod) {
+    public static int wrap(int input, int max) {
+        return wrap(input, 0, max);
+    }
+
+    public static int wrap(int input, int min, int max) {
         int output = input;
 
-        while (output < 0) {
-            output += mod;
-        }
+        while (output < min || output >= max) {
+            while (output < min) {
+                output += max;
+            }
 
-        while (output >= mod) {
-            output -= mod;
+            while (output >= max) {
+                output -= (max - min);
+            }
         }
 
         return output;

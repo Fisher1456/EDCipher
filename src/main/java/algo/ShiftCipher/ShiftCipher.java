@@ -3,6 +3,7 @@ package algo.ShiftCipher;
 import algo.Cipher;
 import algo.ICipher;
 import util.CharInt;
+import util.WrapAround;
 
 import java.nio.file.Path;
 
@@ -29,15 +30,17 @@ public class ShiftCipher extends Cipher implements ICipher {
                 continue;
             }
 
-            if (encodedChar >= 100 && encodedChar < 200) {
-                newCharInt = (encodedChar + shift) % (100 + letterMod);
-                if (newCharInt < 100) {
-                    newCharInt += 100;
-                }
-            } else if (encodedChar >= 200) {
-                newCharInt = (((encodedChar - 200) + shift) % digitMod) + 200;
+            if (encodedChar >= LOWER_CASE_MIN && encodedChar < DIGIT_MIN) {
+//                newCharInt = (encodedChar + shift) % (100 + CAPITAL_MAX);
+//                if (newCharInt < 100) {
+//                    newCharInt += 100;
+//                }
+                newCharInt = WrapAround.wrap(encodedChar + shift, LOWER_CASE_MIN, LOWER_CASE_MAX);
+            } else if (encodedChar >= DIGIT_MIN) {
+//                newCharInt = (((encodedChar - 200) + shift) % DIGIT_MAX) + 200;
+                newCharInt = WrapAround.wrap((encodedChar) + shift, DIGIT_MIN, DIGIT_MAX);
             } else {
-                newCharInt = (encodedChar + shift) % letterMod;
+                newCharInt = WrapAround.wrap(encodedChar + shift,  CAPITAL_MAX);
             }
             newChar = CharInt.toChar(newCharInt);
             cipherText.append(newChar);
@@ -66,16 +69,19 @@ public class ShiftCipher extends Cipher implements ICipher {
                 continue;
             }
 
-            if (encodedChar >= 100 && encodedChar < 200) {
-                newCharInt = (((encodedChar - 100) + (letterMod - shift)) % letterMod) + 100;
-            } else if (encodedChar >= 200) {
-                newCharInt = ((encodedChar - 200) + (digitMod - shift)) % digitMod;
-                if (newCharInt < 0) {
-                    newCharInt = digitMod - (-newCharInt);
-                }
-                newCharInt += 200;
+            if (encodedChar >= LOWER_CASE_MIN && encodedChar < DIGIT_MIN) {
+//                newCharInt = (((encodedChar - 100) + (CAPITAL_MAX - shift)) % CAPITAL_MAX) + 100;
+                newCharInt = WrapAround.wrap(encodedChar - shift, LOWER_CASE_MIN, LOWER_CASE_MAX - shift);
+            } else if (encodedChar >= DIGIT_MIN) {
+//                newCharInt = ((encodedChar - 200) + (DIGIT_MAX - shift)) % DIGIT_MAX;
+//                if (newCharInt < 0) {
+//                    newCharInt = DIGIT_MAX - (-newCharInt);
+//                }
+//                newCharInt += 200;
+                newCharInt = WrapAround.wrap(encodedChar - shift, DIGIT_MIN, DIGIT_MAX - shift);
             } else {
-                newCharInt = (encodedChar + (letterMod - shift)) % letterMod;
+//                newCharInt = (encodedChar + (CAPITAL_MAX - shift)) % CAPITAL_MAX;
+                newCharInt = WrapAround.wrap(encodedChar - shift, CAPITAL_MAX);
             }
             newChar = CharInt.toChar(newCharInt);
             plainText.append(newChar);

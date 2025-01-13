@@ -3,6 +3,7 @@ package algo.SubstitutionCipher;
 import algo.Cipher;
 import algo.ICipher;
 import util.CharInt;
+import util.WrapAround;
 
 import java.nio.file.Path;
 
@@ -29,7 +30,8 @@ public class SubstitutionCipher extends Cipher implements ICipher {
                 continue;
             }
 
-            newCharInt = (encodedChar + key.getForwardShift(encodedChar)) % letterMod;
+//            newCharInt = (encodedChar + key.getForwardShift(encodedChar)) % CAPITAL_MAX;
+            newCharInt = WrapAround.wrap(encodedChar + key.getForwardShift(encodedChar), CAPITAL_MAX);
 
 
 //            if (encodedChar >= 100 && encodedChar < 200) {
@@ -70,7 +72,8 @@ public class SubstitutionCipher extends Cipher implements ICipher {
                 continue;
             }
 
-            newCharInt = (encodedChar + (letterMod - key.getBackwardShift(encodedChar))) % letterMod;
+//            newCharInt = (encodedChar + (CAPITAL_MAX - key.getBackwardShift(encodedChar))) % CAPITAL_MAX;
+            newCharInt = WrapAround.wrap(encodedChar - key.getBackwardShift(encodedChar), CAPITAL_MAX);
 
 //            if (decodedChar >= 100 && decodedChar < 200) {
 //                newCharInt = (((decodedChar - 100) + (letterMod - key.getKey())) % letterMod) + 100;

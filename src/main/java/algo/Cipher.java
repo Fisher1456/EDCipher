@@ -6,8 +6,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class Cipher implements ICipher {
-    public static final int letterMod = 26;
-    public static final int digitMod = 10;
+//    public static final int CAPITAL_MIN = 0;
+    public static final int CAPITAL_MAX = 26;
+    public static final int LOWER_CASE_MIN = 100;
+    public static final int LOWER_CASE_MAX = 126;
+    public static final int DIGIT_MIN = 200;
+    public static final int DIGIT_MAX = 210;
 
     @Override
     public String encrypt(Path plainTextFile) {

@@ -14,7 +14,7 @@ public class ShiftKey implements IKey {
 
     @Override
     public void setKey(String keyString, String type) {
-        this.key = WrapAround.wrap(Integer.parseInt(keyString), Cipher.letterMod);
+        this.key = WrapAround.wrap(Integer.parseInt(keyString), Cipher.CAPITAL_MAX);
         this.keyType = KeyType.parse(type);
     }
 
