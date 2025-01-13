@@ -1,7 +1,9 @@
 package algo.ShiftCipher;
 
+import algo.Cipher;
 import algo.IKey;
 import algo.KeyType;
+import util.WrapAround;
 
 public class ShiftKey implements IKey {
     private KeyType keyType = null;
@@ -12,7 +14,7 @@ public class ShiftKey implements IKey {
 
     @Override
     public void setKey(String keyString, String type) {
-        this.key = Integer.parseInt(keyString);
+        this.key = WrapAround.wrap(Integer.parseInt(keyString), Cipher.letterMod);
         this.keyType = KeyType.parse(type);
     }
 
