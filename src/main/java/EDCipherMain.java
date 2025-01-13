@@ -1,6 +1,6 @@
 import algo.ShiftCipher.ShiftCipher;
 import algo.SubstitutionCipher.SubstitutionCipher;
-import algo.IKey;
+//import algo.IKey;
 import algo.ShiftCipher.ShiftKey;
 import algo.SubstitutionCipher.SubstitutionKey;
 
@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import javax.swing.*;
 
 public class EDCipherMain extends JFrame implements ActionListener {
-    static IKey key;
+//    static IKey key;
     static String keyString;
     static Path inputTextPath;
 //    static String outputFile;
@@ -190,18 +190,6 @@ public class EDCipherMain extends JFrame implements ActionListener {
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-//        frame.add(l);
 //        frame.add(saveFileButton);
         frame.add(openFileButton);
         frame.add(keyTextField);
@@ -218,9 +206,6 @@ public class EDCipherMain extends JFrame implements ActionListener {
         frame.setVisible(true);
 
     }
-
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class SubstitutionCipher implements ICipher {
-    private SubstitutionKey key;
+    private final SubstitutionKey key;
 
     private static final int letterMod = 26;
     private static final int digitMod = 10;
@@ -28,14 +28,11 @@ public class SubstitutionCipher implements ICipher {
             while ((str = br.readLine()) != null) {
                 builder.append(str).append("\n");
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        String output = builder.toString();
-        return output;
+        return builder.toString();
     }
 
 

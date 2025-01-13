@@ -10,264 +10,138 @@ public final class CharInt {
     }
 
     public static int toInt(char c) {
-        switch (c) {
-            case 'A':
-                return 0;
-            case 'a':
-                return 100;
-            case 'B':
-                return 1;
-            case 'b':
-                return 101;
-            case 'C':
-                return 2;
-            case 'c':
-                return 102;
-            case 'D':
-                return 3;
-            case 'd':
-                return 103;
-            case 'E':
-                return 4;
-            case 'e':
-                return 104;
-            case 'F':
-                return 5;
-            case 'f':
-                return 105;
-            case 'G':
-                return 6;
-            case 'g':
-                return 106;
-            case 'H':
-                return 7;
-            case 'h':
-                return 107;
-            case 'I':
-                return 8;
-            case 'i':
-                return 108;
-            case 'J':
-                return 9;
-            case 'j':
-                return 109;
-            case 'K':
-                return 10;
-            case 'k':
-                return 110;
-            case 'L':
-                return 11;
-            case 'l':
-                return 111;
-            case 'M':
-                return 12;
-            case 'm':
-                return 112;
-            case 'N':
-                return 13;
-            case 'n':
-                return 113;
-            case 'O':
-                return 14;
-            case 'o':
-                return 114;
-            case 'P':
-                return 15;
-            case 'p':
-                return 115;
-            case 'Q':
-                return 16;
-            case 'q':
-                return 116;
-            case 'R':
-                return 17;
-            case 'r':
-                return 117;
-            case 'S':
-                return 18;
-            case 's':
-                return 118;
-            case 'T':
-                return 19;
-            case 't':
-                return 119;
-            case 'U':
-                return 20;
-            case 'u':
-                return 120;
-            case 'V':
-                return 21;
-            case 'v':
-                return 121;
-            case 'W':
-                return 22;
-            case 'w':
-                return 122;
-            case 'X':
-                return 23;
-            case 'x':
-                return 123;
-            case 'Y':
-                return 24;
-            case 'y':
-                return 124;
-            case 'Z':
-                return 25;
-            case 'z':
-                return 125;
-            case '0':
-                return 200;
-            case '1':
-                return 201;
-            case '2':
-                return 202;
-            case '3':
-                return 203;
-            case '4':
-                return 204;
-            case '5':
-                return 205;
-            case '6':
-                return 206;
-            case '7':
-                return 207;
-            case '8':
-                return 208;
-            case '9':
-                return 209;
-            default:
-                return -1;
-        }
+        return switch (c) {
+            case 'A' -> 0;
+            case 'a' -> 100;
+            case 'B' -> 1;
+            case 'b' -> 101;
+            case 'C' -> 2;
+            case 'c' -> 102;
+            case 'D' -> 3;
+            case 'd' -> 103;
+            case 'E' -> 4;
+            case 'e' -> 104;
+            case 'F' -> 5;
+            case 'f' -> 105;
+            case 'G' -> 6;
+            case 'g' -> 106;
+            case 'H' -> 7;
+            case 'h' -> 107;
+            case 'I' -> 8;
+            case 'i' -> 108;
+            case 'J' -> 9;
+            case 'j' -> 109;
+            case 'K' -> 10;
+            case 'k' -> 110;
+            case 'L' -> 11;
+            case 'l' -> 111;
+            case 'M' -> 12;
+            case 'm' -> 112;
+            case 'N' -> 13;
+            case 'n' -> 113;
+            case 'O' -> 14;
+            case 'o' -> 114;
+            case 'P' -> 15;
+            case 'p' -> 115;
+            case 'Q' -> 16;
+            case 'q' -> 116;
+            case 'R' -> 17;
+            case 'r' -> 117;
+            case 'S' -> 18;
+            case 's' -> 118;
+            case 'T' -> 19;
+            case 't' -> 119;
+            case 'U' -> 20;
+            case 'u' -> 120;
+            case 'V' -> 21;
+            case 'v' -> 121;
+            case 'W' -> 22;
+            case 'w' -> 122;
+            case 'X' -> 23;
+            case 'x' -> 123;
+            case 'Y' -> 24;
+            case 'y' -> 124;
+            case 'Z' -> 25;
+            case 'z' -> 125;
+            case '0' -> 200;
+            case '1' -> 201;
+            case '2' -> 202;
+            case '3' -> 203;
+            case '4' -> 204;
+            case '5' -> 205;
+            case '6' -> 206;
+            case '7' -> 207;
+            case '8' -> 208;
+            case '9' -> 209;
+            default -> -1;
+        };
     }
 
     public static char toChar(int i) {
-        switch (i) {
-            case 0:
-                return 'A';
-            case 1:
-                return 'B';
-            case 2:
-                return 'C';
-            case 3:
-                return 'D';
-            case 4:
-                return 'E';
-            case 5:
-                return 'F';
-            case 6:
-                return 'G';
-            case 7:
-                return 'H';
-            case 8:
-                return 'I';
-            case 9:
-                return 'J';
-            case 10:
-                return 'K';
-            case 11:
-                return 'L';
-            case 12:
-                return 'M';
-            case 13:
-                return 'N';
-            case 14:
-                return 'O';
-            case 15:
-                return 'P';
-            case 16:
-                return 'Q';
-            case 17:
-                return 'R';
-            case 18:
-                return 'S';
-            case 19:
-                return 'T';
-            case 20:
-                return 'U';
-            case 21:
-                return 'V';
-            case 22:
-                return 'W';
-            case 23:
-                return 'X';
-            case 24:
-                return 'Y';
-            case 25:
-                return 'Z';
-            case 100:
-                return 'a';
-            case 101:
-                return 'b';
-            case 102:
-                return 'c';
-            case 103:
-                return 'd';
-            case 104:
-                return 'e';
-            case 105:
-                return 'f';
-            case 106:
-                return 'g';
-            case 107:
-                return 'h';
-            case 108:
-                return 'i';
-            case 109:
-                return 'j';
-            case 110:
-                return 'k';
-            case 111:
-                return 'l';
-            case 112:
-                return 'm';
-            case 113:
-                return 'n';
-            case 114:
-                return 'o';
-            case 115:
-                return 'p';
-            case 116:
-                return 'q';
-            case 117:
-                return 'r';
-            case 118:
-                return 's';
-            case 119:
-                return 't';
-            case 120:
-                return 'u';
-            case 121:
-                return 'v';
-            case 122:
-                return 'w';
-            case 123:
-                return 'x';
-            case 124:
-                return 'y';
-            case 125:
-                return 'z';
-            case 200:
-                return '0';
-            case 201:
-                return '1';
-            case 202:
-                return '2';
-            case 203:
-                return '3';
-            case 204:
-                return '4';
-            case 205:
-                return '5';
-            case 206:
-                return '6';
-            case 207:
-                return '7';
-            case 208:
-                return '8';
-            case 209:
-                return '9';
-            default:
-                return '!';
-        }
+        return switch (i) {
+            case 0 -> 'A';
+            case 1 -> 'B';
+            case 2 -> 'C';
+            case 3 -> 'D';
+            case 4 -> 'E';
+            case 5 -> 'F';
+            case 6 -> 'G';
+            case 7 -> 'H';
+            case 8 -> 'I';
+            case 9 -> 'J';
+            case 10 -> 'K';
+            case 11 -> 'L';
+            case 12 -> 'M';
+            case 13 -> 'N';
+            case 14 -> 'O';
+            case 15 -> 'P';
+            case 16 -> 'Q';
+            case 17 -> 'R';
+            case 18 -> 'S';
+            case 19 -> 'T';
+            case 20 -> 'U';
+            case 21 -> 'V';
+            case 22 -> 'W';
+            case 23 -> 'X';
+            case 24 -> 'Y';
+            case 25 -> 'Z';
+            case 100 -> 'a';
+            case 101 -> 'b';
+            case 102 -> 'c';
+            case 103 -> 'd';
+            case 104 -> 'e';
+            case 105 -> 'f';
+            case 106 -> 'g';
+            case 107 -> 'h';
+            case 108 -> 'i';
+            case 109 -> 'j';
+            case 110 -> 'k';
+            case 111 -> 'l';
+            case 112 -> 'm';
+            case 113 -> 'n';
+            case 114 -> 'o';
+            case 115 -> 'p';
+            case 116 -> 'q';
+            case 117 -> 'r';
+            case 118 -> 's';
+            case 119 -> 't';
+            case 120 -> 'u';
+            case 121 -> 'v';
+            case 122 -> 'w';
+            case 123 -> 'x';
+            case 124 -> 'y';
+            case 125 -> 'z';
+            case 200 -> '0';
+            case 201 -> '1';
+            case 202 -> '2';
+            case 203 -> '3';
+            case 204 -> '4';
+            case 205 -> '5';
+            case 206 -> '6';
+            case 207 -> '7';
+            case 208 -> '8';
+            case 209 -> '9';
+            default -> '!';
+        };
     }
 }

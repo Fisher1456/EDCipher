@@ -4,7 +4,6 @@ import algo.IKey;
 import algo.KeyType;
 
 public class ShiftKey implements IKey {
-    private String keyString = null;
     private KeyType keyType = null;
     private int key = -1;
 
@@ -13,7 +12,6 @@ public class ShiftKey implements IKey {
 
     @Override
     public void setKey(String keyString, String type) {
-        this.keyString = keyString;
         this.key = Integer.parseInt(keyString);
         this.keyType = KeyType.parse(type);
 
