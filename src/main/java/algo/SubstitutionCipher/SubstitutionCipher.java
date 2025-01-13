@@ -1,10 +1,7 @@
 package algo.SubstitutionCipher;
 
-import algo.Cipher;
 import algo.ICipher;
 import util.CharInt;
-import util.key.ShiftKey;
-import util.key.SubstitutionKey;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

@@ -1,9 +1,7 @@
 package algo.ShiftCipher;
 
-import algo.Cipher;
 import algo.ICipher;
 import util.CharInt;
-import util.key.ShiftKey;
 
 import java.io.*;
 import java.nio.file.Path;

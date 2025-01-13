@@ -1,8 +1,8 @@
 import algo.ShiftCipher.ShiftCipher;
 import algo.SubstitutionCipher.SubstitutionCipher;
-import util.key.IKey;
-import util.key.ShiftKey;
-import util.key.SubstitutionKey;
+import algo.IKey;
+import algo.ShiftCipher.ShiftKey;
+import algo.SubstitutionCipher.SubstitutionKey;
 
 import java.awt.event.*;
 import java.io.IOException;

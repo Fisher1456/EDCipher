@@ -1,4 +1,7 @@
-package util.key;
+package algo.ShiftCipher;
+
+import algo.IKey;
+import algo.KeyType;
 
 public class ShiftKey implements IKey {
     private String keyString = null;

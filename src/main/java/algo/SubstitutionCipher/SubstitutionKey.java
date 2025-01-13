@@ -1,7 +1,10 @@
-package util.key;
+package algo.SubstitutionCipher;
+
+import algo.IKey;
+import algo.Key;
+import algo.KeyType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SubstitutionKey extends Key implements IKey {
     private String keyString = null;

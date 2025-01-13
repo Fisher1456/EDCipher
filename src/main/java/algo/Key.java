@@ -1,4 +1,4 @@
-package util.key;
+package algo;
 
 public class Key implements IKey {
     @Override
