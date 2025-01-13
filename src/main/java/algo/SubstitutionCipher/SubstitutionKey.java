@@ -1,5 +1,6 @@
 package algo.SubstitutionCipher;
 
+import algo.Cipher;
 import algo.IKey;
 import algo.Key;
 import algo.KeyType;
@@ -44,8 +45,8 @@ public class SubstitutionKey extends Key implements IKey {
     }
 
     public int getBackwardShift(int value) {
-        for (int i = 0; i < key.size(); i++) {
-            if (i + key.get(i) == value) {
+        for (int i = value; i < key.size() + value; i++) {
+            if ((i + key.get(i)) % Cipher.letterMod == value) {
                 return key.get(i);
             }
         }
