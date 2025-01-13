@@ -1,6 +1,10 @@
 package util;
 
+import java.util.HashMap;
+
 public final class CharInt {
+    HashMap<Character, Integer> charInt = new HashMap<>();
+
     private CharInt() {
 
     }

@@ -20,40 +20,35 @@ public class SubstitutionKey extends Key implements IKey {
 
         String tempKey = "";
         for (int i = 0; i < keyString.length(); i++) {
-            if (keyString.charAt(i) != ',') {
-                tempKey += keyString.charAt(i);
-            } else if (keyString.charAt(i) == ' ') {
+            if (keyString.charAt(i) == ' ') {
                 continue;
             } else if (keyString.charAt(i) == ',') {
-                this.key.add(Integer.parseInt(tempKey));
+                key.add(Integer.parseInt(tempKey));
                 tempKey = "";
+                continue;
             }
+
+            tempKey += keyString.charAt(i);
         }
 
-        if (this.key.size() < 26) {
-            for (int i = this.key.size(); i < 26; i ++) {
-                this.key.add(0);
+        if (key.size() < 26) {
+            for (int i = key.size(); i < 26; i ++) {
+                key.add(0);
             }
         }
     }
 
     public int getForwardValue(int index) {
-        return this.key.get(index);
+        return key.get(index);
     }
 
     public int getBackwardValue(int value) {
-        for (int i = 0; i < this.key.size(); i++) {
-            if (this.key.get(i) == value) {
-                return i;
+        for (int i = 0; i < key.size(); i++) {
+            if (i + key.get(i) == value) {
+                return key.get(i);
             }
         }
 
         return 0;
-    }
-
-    private HashMap cloneMap(HashMap<Integer, Integer> map) {
-        HashMap<Integer, Integer> newMap = new HashMap<>();
-        newMap.putAll(map);
-        return newMap;
     }
 }

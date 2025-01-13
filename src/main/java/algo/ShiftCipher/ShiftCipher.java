@@ -10,12 +10,14 @@ import java.nio.file.Path;
 
 public class ShiftCipher implements ICipher {
     private ShiftKey key;
+    private int shift;
 
     private static final int letterMod = 26;
     private static final int digitMod = 10;
 
     public ShiftCipher(ShiftKey key) {
         this.key = key;
+        shift = key.getKey();
     }
 
     private static String fileToString(Path inputFile) {
@@ -44,7 +46,7 @@ public class ShiftCipher implements ICipher {
         String cipherText = "";
         for (int i = 0; i < plainText.length(); i++) {
             int newCharInt = -1;
-            char newChar = ' ';
+            char newChar = '!';
             int encodedChar = CharInt.toInt(plainText.charAt(i));
 
             if (encodedChar == -1) {
@@ -54,14 +56,14 @@ public class ShiftCipher implements ICipher {
             }
 
             if (encodedChar >= 100 && encodedChar < 200) {
-                newCharInt = (encodedChar + key.getKey()) % (100 + letterMod);
+                newCharInt = (encodedChar + shift) % (100 + letterMod);
                 if (newCharInt < 100) {
                     newCharInt += 100;
                 }
             } else if (encodedChar >= 200) {
-                newCharInt = (((encodedChar - 200) + key.getKey()) % digitMod) + 200;
+                newCharInt = (((encodedChar - 200) + shift) % digitMod) + 200;
             } else {
-                newCharInt = (encodedChar + key.getKey()) % letterMod;
+                newCharInt = (encodedChar + shift) % letterMod;
             }
             newChar = CharInt.toChar(newCharInt);
             cipherText += newChar;
@@ -91,15 +93,15 @@ public class ShiftCipher implements ICipher {
             }
 
             if (encodedChar >= 100 && encodedChar < 200) {
-                newCharInt = (((encodedChar - 100) + (letterMod - key.getKey())) % letterMod) + 100;
+                newCharInt = (((encodedChar - 100) + (letterMod - shift)) % letterMod) + 100;
             } else if (encodedChar >= 200) {
-                newCharInt = ((encodedChar - 200) + (digitMod - key.getKey())) % digitMod;
+                newCharInt = ((encodedChar - 200) + (digitMod - shift)) % digitMod;
                 if (newCharInt < 0) {
                     newCharInt = digitMod - (-newCharInt);
                 }
                 newCharInt += 200;
             } else {
-                newCharInt = (encodedChar + (letterMod - key.getKey())) % letterMod;
+                newCharInt = (encodedChar + (letterMod - shift)) % letterMod;
             }
             newChar = CharInt.toChar(newCharInt);
             plainText += newChar;
