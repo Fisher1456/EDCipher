@@ -33,7 +33,10 @@ public class SubstitutionKey extends Key implements IKey {
             } else if (keyString.charAt(i) == ',') {
                 int shift = WrapAround.wrap(Integer.parseInt(tempKey.toString()), Cipher.CAPITAL_MAX);
                 keyForward.add(shift);
-                keyBackward.set(shift, shift - i);
+//                keyBackward.set(
+//                        WrapAround.wrap(keyForward.size() - 1 + shift, Cipher.CAPITAL_MAX),
+//                        WrapAround.wrap(shift - (keyForward.size() - 1), Cipher.CAPITAL_MAX)
+//                );
                 tempKey = new StringBuilder();
                 continue;
             }
@@ -45,6 +48,13 @@ public class SubstitutionKey extends Key implements IKey {
             for (int i = keyForward.size(); i < 26; i ++) {
                 keyForward.add(0);
             }
+        }
+
+        for (int i = 0; i < Cipher.CAPITAL_MAX; i ++) {
+            keyBackward.set(
+                    WrapAround.wrap(i + getForwardShift(i), Cipher.CAPITAL_MAX),
+                    WrapAround.wrap(i - getForwardShift(i), Cipher.CAPITAL_MAX)
+            );
         }
     }
 
