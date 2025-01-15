@@ -1,3 +1,4 @@
+import algo.Key;
 import algo.ShiftCipher.ShiftCipher;
 import algo.SubstitutionCipher.SubstitutionCipher;
 //import algo.IKey;

@@ -2,27 +2,31 @@ package algo.ShiftCipher;
 
 import algo.Cipher;
 import algo.IKey;
+import algo.Key;
 import algo.KeyType;
+import util.CharInt;
 import util.WrapAround;
 
-public class ShiftKey implements IKey {
+public class ShiftKey extends Key implements IKey {
     private KeyType keyType = null;
-    private int key = -1;
+    private int shift = -1;
 
     public ShiftKey() {
     }
 
     @Override
     public void setKey(String keyString, String type) {
-        this.key = WrapAround.wrap(Integer.parseInt(keyString), Cipher.CAPITAL_MAX);
+        this.shift = WrapAround.wrap(Integer.parseInt(keyString));
         this.keyType = KeyType.parse(type);
     }
 
-    public int getForwardShift() {
-        return this.key;
+    @Override
+    public CharInt getForwardCharInt(CharInt ci) {
+        return new CharInt(WrapAround.wrap(ci.getIndex() + shift));
     }
 
-    public int getBackwardShift() {
-        return this.key;
+    @Override
+    public CharInt getBackwardCharInt(CharInt ci) {
+        return new CharInt(WrapAround.wrap(ci.getIndex() - shift));
     }
 }

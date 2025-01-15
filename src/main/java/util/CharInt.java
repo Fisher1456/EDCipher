@@ -1,15 +1,52 @@
 package util;
 
+import algo.Cipher;
+
 import java.util.HashMap;
 
-public final class CharInt {
-    HashMap<Character, Integer> charInt = new HashMap<>();
+public class CharInt {
+    private HashMap<Character, Integer> charIntMap = new HashMap<>();
+    private char letter;
+    private int index;
 
-    private CharInt() {
-
+    public CharInt(char letter) {
+        this.letter = letter;
+        this.index = toInt(letter);
     }
 
-    public static int toInt(char c) {
+    public CharInt(int index) {
+        if (index < 0 || index > 25) {
+            throw new IllegalArgumentException("index value incorrect: " + index);
+        }
+
+        this.letter = toChar(index);
+        this.index = index;
+    }
+
+    public char getLetter() {
+        return letter;
+    }
+
+    public int getIndex() {
+        if (index < 0 || index > 25) {
+            throw new IllegalArgumentException("index value incorrect: " + index);
+        }
+
+        return index;
+    }
+
+    public void shiftBy(int shift) {
+        index += shift;
+        index = WrapAround.wrap(index);
+        letter = toChar(index);
+    }
+
+    public void shiftTo(char letter) {
+        this.letter = letter;
+        index = toInt(letter);
+    }
+
+    private static int toInt(char c) {
         return switch (c) {
             case 'A' -> 0;
             case 'a' -> 100;
@@ -77,7 +114,7 @@ public final class CharInt {
         };
     }
 
-    public static char toChar(int i) {
+    private static char toChar(int i) {
         return switch (i) {
             case 0 -> 'A';
             case 1 -> 'B';

@@ -1,8 +1,14 @@
 package util;
 
-public final class WrapAround {
-    public WrapAround() {
+import algo.Cipher;
 
+public final class WrapAround {
+//    public WrapAround() {
+//
+//    }
+
+    public static int wrap(int input) {
+        return wrap(input, 0, Cipher.CAPITAL_MAX);
     }
 
     public static int wrap(int input, int max) {

@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class Cipher implements ICipher {
+public abstract class Cipher implements ICipher {
 //    public static final int CAPITAL_MIN = 0;
     public static final int CAPITAL_MAX = 26;
     public static final int LOWER_CASE_MIN = 100;

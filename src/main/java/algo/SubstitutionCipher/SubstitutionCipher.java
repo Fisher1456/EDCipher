@@ -20,18 +20,18 @@ public class SubstitutionCipher extends Cipher implements ICipher {
 
         StringBuilder cipherText = new StringBuilder();
         for (int i = 0; i < plainText.length(); i++) {
-            int newCharInt = -1;
+            CharInt newCharInt = new CharInt(-1);
             char newChar = ' ';
-            int encodedChar = CharInt.toInt(plainText.charAt(i));
+            CharInt encodedCharInt = new CharInt(plainText.charAt(i));
 
-            if (encodedChar == -1 || encodedChar > 25) {
+            if (encodedCharInt.getIndex() == -1 || encodedCharInt.getIndex() > 25) {
                 newChar = plainText.charAt(i);
                 cipherText.append(newChar);
                 continue;
             }
 
-//            newCharInt = (encodedChar + key.getForwardShift(encodedChar)) % CAPITAL_MAX;
-            newCharInt = WrapAround.wrap(encodedChar + key.getForwardShift(encodedChar), CAPITAL_MAX);
+//            newCharInt = WrapAround.wrap(key.getForwardShift(encodedCharInt), CAPITAL_MAX);
+            newCharInt = key.getForwardCharInt(encodedCharInt);
 
 
 //            if (encodedChar >= 100 && encodedChar < 200) {
@@ -45,7 +45,8 @@ public class SubstitutionCipher extends Cipher implements ICipher {
 //                newCharInt = (encodedChar + key.getKey()) % letterMod;
 //            }
 
-            newChar = CharInt.toChar(newCharInt);
+//            newChar = CharInt.toChar(newCharInt);
+            newChar = newCharInt.getLetter();
             cipherText.append(newChar);
         }
 
@@ -62,18 +63,18 @@ public class SubstitutionCipher extends Cipher implements ICipher {
     public String decrypt(String cipherText) {
         StringBuilder plainText = new StringBuilder();
         for (int i = 0; i < cipherText.length(); i++) {
-            int newCharInt = -1;
+            CharInt newCharInt = new CharInt(-1);
             char newChar = ' ';
+            CharInt encodedCharInt = new CharInt(cipherText.charAt(i));
 
-            int encodedChar = CharInt.toInt(cipherText.charAt(i));
-            if (encodedChar == -1 || encodedChar > 25) {
+            if (encodedCharInt.getIndex() == -1 || encodedCharInt.getIndex() > 25) {
                 newChar = cipherText.charAt(i);
                 plainText.append(newChar);
                 continue;
             }
 
-//            newCharInt = (encodedChar + (CAPITAL_MAX - key.getBackwardShift(encodedChar))) % CAPITAL_MAX;
-            newCharInt = WrapAround.wrap(encodedChar - key.getBackwardShift(encodedChar), CAPITAL_MAX);
+//            newCharInt = WrapAround.wrap(key.getBackwardShift(encodedCharInt), CAPITAL_MAX);
+            newCharInt = key.getBackwardCharInt(encodedCharInt);
 
 //            if (decodedChar >= 100 && decodedChar < 200) {
 //                newCharInt = (((decodedChar - 100) + (letterMod - key.getKey())) % letterMod) + 100;
@@ -86,7 +87,8 @@ public class SubstitutionCipher extends Cipher implements ICipher {
 //            } else {
 //                newCharInt = (decodedChar + (letterMod - key.getKey())) % letterMod;
 //            }
-            newChar = CharInt.toChar(newCharInt);
+//            newChar = CharInt.toChar(newCharInt);
+            newChar = newCharInt.getLetter();
             plainText.append(newChar);
         }
 
