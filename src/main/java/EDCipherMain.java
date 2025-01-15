@@ -1,6 +1,9 @@
+import algo.Key;
 import algo.ShiftCipher.ShiftCipher;
-import util.key.Key;
-import util.key.ShiftKey;
+import algo.SubstitutionCipher.SubstitutionCipher;
+//import algo.IKey;
+import algo.ShiftCipher.ShiftKey;
+import algo.SubstitutionCipher.SubstitutionKey;
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -9,11 +12,13 @@ import java.nio.file.Path;
 import javax.swing.*;
 
 public class EDCipherMain extends JFrame implements ActionListener {
-    static Key key;
+//    static IKey key;
     static String keyString;
     static Path inputTextPath;
-    static String outputFile;
-    static ShiftCipher cipher;
+//    static String outputFile;
+    static File outputFile;
+    static ShiftCipher shiftCipher;
+    static SubstitutionCipher substitutionCipher;
 
 //    static JLabel l;
 
@@ -58,7 +63,7 @@ public class EDCipherMain extends JFrame implements ActionListener {
 //        saveFileButton.setBounds(250, 50, 150, 40);
 //        saveFileButton.addActionListener(EDC);
 
-        JFileChooser jfc = new JFileChooser("C:\\EDCipher\\IOFiles");
+        JFileChooser jfc = new JFileChooser(System.getProperty("user.dir"));
 
 //        jfc.showSaveDialog(null);
 
@@ -96,6 +101,7 @@ public class EDCipherMain extends JFrame implements ActionListener {
 
         DefaultListModel<String> l1 = new DefaultListModel<>();
         l1.addElement("Shift Cipher");
+        l1.addElement("Substitution Cipher");
         JList<String> list = new JList<>(l1);
         list.setBounds(100,250, 175,150);
 
@@ -109,20 +115,27 @@ public class EDCipherMain extends JFrame implements ActionListener {
                     } catch (NumberFormatException nfe) {
                         throw new NumberFormatException("NumberFormatException occurred");
                     }
+                    String cipherText;
 
                     switch(list.getSelectedValue()) {
                         case "Shift Cipher":
-                            ShiftKey key = new ShiftKey();
-                            key.setKey(keyString, "Shift Cipher");
-                            cipher = new ShiftCipher(key);
+                            ShiftKey shiftKey = new ShiftKey();
+                            shiftKey.setKey(keyString, "Shift Cipher");
+                            shiftCipher = new ShiftCipher(shiftKey);
+                            outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
+                            cipherText = shiftCipher.encrypt(inputTextPath);
+                            break;
+                        case "Substitution Cipher":
+                            SubstitutionKey substitutionKey = new SubstitutionKey();
+                            substitutionKey.setKey(keyString, "Substitution Cipher");
+                            substitutionCipher = new SubstitutionCipher(substitutionKey);
+                            outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
+                            cipherText = substitutionCipher.encrypt(inputTextPath);
                             break;
                         default:
                             throw new IllegalStateException("wrong selected cipher");
                     }
 
-                    outputFile = "C:\\EDCipher\\IOFiles\\" + outputTextField.getText() + ".txt";
-
-                    String cipherText = cipher.encrypt(inputTextPath);
                     try {
                         FileWriter cwr = new FileWriter(outputFile);
                         cwr.write(cipherText);
@@ -145,20 +158,27 @@ public class EDCipherMain extends JFrame implements ActionListener {
                     } catch (NumberFormatException nfe) {
                         throw new NumberFormatException("NumberFormatException occurred");
                     }
+                    String plainText;
 
                     switch(list.getSelectedValue()) {
                         case "Shift Cipher":
-                            ShiftKey key = new ShiftKey();
-                            key.setKey(keyString, "Shift Cipher");
-                            cipher = new ShiftCipher(key);
+                            ShiftKey shiftKey = new ShiftKey();
+                            shiftKey.setKey(keyString, "Shift Cipher");
+                            shiftCipher = new ShiftCipher(shiftKey);
+                            outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
+                            plainText = shiftCipher.decrypt(inputTextPath);
+                            break;
+                        case "Substitution Cipher":
+                            SubstitutionKey substitutionKey = new SubstitutionKey();
+                            substitutionKey.setKey(keyString, "Substitution Cipher");
+                            substitutionCipher = new SubstitutionCipher(substitutionKey);
+                            outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
+                            plainText = substitutionCipher.decrypt(inputTextPath);
                             break;
                         default:
                             throw new IllegalStateException("wrong selected cipher");
                     }
 
-                    outputFile = "C:\\EDCipher\\IOFiles\\" + outputTextField.getText() + ".txt";
-
-                    String plainText = cipher.decrypt(inputTextPath);
                     try {
                         FileWriter dwr = new FileWriter(outputFile);
                         dwr.write(plainText);
@@ -171,18 +191,6 @@ public class EDCipherMain extends JFrame implements ActionListener {
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-//        frame.add(l);
 //        frame.add(saveFileButton);
         frame.add(openFileButton);
         frame.add(keyTextField);
@@ -199,9 +207,6 @@ public class EDCipherMain extends JFrame implements ActionListener {
         frame.setVisible(true);
 
     }
-
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {

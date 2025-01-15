@@ -1,73 +1,63 @@
 package algo.ShiftCipher;
 
+import algo.Cipher;
+import algo.ICipher;
+import algo.IKey;
+import algo.Key;
 import util.CharInt;
-import util.key.Key;
-import util.key.ShiftKey;
+import util.WrapAround;
 
-import java.io.*;
 import java.nio.file.Path;
 
-public class ShiftCipher {
-    private ShiftKey key;
-
-    private static final int letterMod = 26;
-    private static final int digitMod = 10;
+public class ShiftCipher extends Cipher implements ICipher {
+    ShiftKey key;
+//    private final int shift;
 
     public ShiftCipher(ShiftKey key) {
+//        shift = key.getForwardCharInt();
         this.key = key;
     }
 
-    private static String fileToString(Path inputFile) {
-        StringBuilder builder = new StringBuilder();
-        try (FileReader fr = new FileReader(inputFile.toFile());
-             BufferedReader br = new BufferedReader(fr)) {
-            String str;
-
-            while ((str = br.readLine()) != null) {
-                builder.append(str).append("\n");
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        String output = builder.toString();
-        return output;
-    }
-
+    @Override
     public String encrypt(Path plainTextFile) {
         String plainText = fileToString(plainTextFile);
 
-        String cipherText = "";
+        StringBuilder cipherText = new StringBuilder();
         for (int i = 0; i < plainText.length(); i++) {
-            int newCharInt = -1;
-            char newChar = ' ';
-            int encodedChar = CharInt.toInt(plainText.charAt(i));
+            CharInt newCharInt = new CharInt(-1);
+            char newChar = '!';
+//            int encodedChar = CharInt.toInt(plainText.charAt(i));
+            CharInt encodedCharInt = new CharInt(plainText.charAt(i));
 
-            if (encodedChar == -1) {
+            if (encodedCharInt.getIndex() == -1) {
                 newChar = plainText.charAt(i);
-                cipherText += newChar;
+                cipherText.append(newChar);
                 continue;
             }
 
-            if (encodedChar >= 100 && encodedChar < 200) {
-                newCharInt = (encodedChar + key.getKey()) % (100 + letterMod);
-                if (newCharInt < 100) {
-                    newCharInt += 100;
-                }
-            } else if (encodedChar >= 200) {
-                newCharInt = (((encodedChar - 200) + key.getKey()) % digitMod) + 200;
-            } else {
-                newCharInt = (encodedChar + key.getKey()) % letterMod;
-            }
-            newChar = CharInt.toChar(newCharInt);
-            cipherText += newChar;
+//            if (encodedCharInt.getIndex() >= LOWER_CASE_MIN && encodedCharInt.getIndex() < DIGIT_MIN) {
+////                newCharInt = (encodedChar + shift) % (100 + CAPITAL_MAX);
+////                if (newCharInt < 100) {
+////                    newCharInt += 100;
+////                }
+////                newCharInt = WrapAround.wrap(encodedCharInt + shift, LOWER_CASE_MIN, LOWER_CASE_MAX);
+//            } else if (encodedCharInt.getIndex() >= DIGIT_MIN) {
+////                newCharInt = (((encodedChar - 200) + shift) % DIGIT_MAX) + 200;
+////                newCharInt = WrapAround.wrap((encodedCharInt) + shift, DIGIT_MIN, DIGIT_MAX);
+//            } else {
+//                newCharInt = WrapAround.wrap(encodedCharInt + shift,  CAPITAL_MAX);
+//            }
+//            newChar = CharInt.toChar(newCharInt);
+            newCharInt = key.getForwardCharInt(encodedCharInt);
+
+            newChar = newCharInt.getLetter();
+            cipherText.append(newChar);
         }
 
-        return cipherText;
+        return cipherText.toString();
     }
 
+    @Override
     public String decrypt(Path cipherTextFile) {
         String cipherText = fileToString(cipherTextFile);
 
@@ -75,33 +65,39 @@ public class ShiftCipher {
     }
 
     public String decrypt(String cipherText) {
-        String plainText = "";
+        StringBuilder plainText = new StringBuilder();
         for (int i = 0; i < cipherText.length(); i++) {
-            int newCharInt = -1;
+            CharInt newCharInt = new CharInt(-1);
             char newChar = ' ';
 
-            int decodedChar = CharInt.toInt(cipherText.charAt(i));
-            if (decodedChar == -1) {
+            CharInt encodedCharInt = new CharInt(cipherText.charAt(i));
+            if (encodedCharInt.getIndex() == -1) {
                 newChar = cipherText.charAt(i);
-                plainText += newChar;
+                plainText.append(newChar);
                 continue;
             }
 
-            if (decodedChar >= 100 && decodedChar < 200) {
-                newCharInt = (((decodedChar - 100) + (letterMod - key.getKey())) % letterMod) + 100;
-            } else if (decodedChar >= 200) {
-                newCharInt = ((decodedChar - 200) + (digitMod - key.getKey())) % digitMod;
-                if (newCharInt < 0) {
-                    newCharInt = digitMod - (-newCharInt);
-                }
-                newCharInt += 200;
-            } else {
-                newCharInt = (decodedChar + (letterMod - key.getKey())) % letterMod;
-            }
-            newChar = CharInt.toChar(newCharInt);
-            plainText += newChar;
+//            if (encodedChar >= LOWER_CASE_MIN && encodedChar < DIGIT_MIN) {
+////                newCharInt = (((encodedChar - 100) + (CAPITAL_MAX - shift)) % CAPITAL_MAX) + 100;
+//                newCharInt = WrapAround.wrap(encodedChar - shift, LOWER_CASE_MIN, LOWER_CASE_MAX - shift);
+//            } else if (encodedChar >= DIGIT_MIN) {
+////                newCharInt = ((encodedChar - 200) + (DIGIT_MAX - shift)) % DIGIT_MAX;
+////                if (newCharInt < 0) {
+////                    newCharInt = DIGIT_MAX - (-newCharInt);
+////                }
+////                newCharInt += 200;
+//                newCharInt = WrapAround.wrap(encodedChar - shift, DIGIT_MIN, DIGIT_MAX - shift);
+//            } else {
+////                newCharInt = (encodedChar + (CAPITAL_MAX - shift)) % CAPITAL_MAX;
+//                newCharInt = WrapAround.wrap(encodedChar - shift, CAPITAL_MAX);
+//            }
+            newCharInt = key.getBackwardCharInt(encodedCharInt);
+
+//            newChar = CharInt.toChar(newCharInt);
+            newChar = newCharInt.getLetter();
+            plainText.append(newChar);
         }
 
-        return plainText;
+        return plainText.toString();
     }
 }
