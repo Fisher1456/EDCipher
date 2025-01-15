@@ -1,9 +1,9 @@
-import algo.Key;
-import algo.ShiftCipher.ShiftCipher;
-import algo.SubstitutionCipher.SubstitutionCipher;
+import algo.KeyType;
+import algo.Shift.ShiftCipher;
+import algo.Substitution.SubstitutionCipher;
 //import algo.IKey;
-import algo.ShiftCipher.ShiftKey;
-import algo.SubstitutionCipher.SubstitutionKey;
+import algo.Shift.ShiftKey;
+import algo.Substitution.SubstitutionKey;
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -12,17 +12,12 @@ import java.nio.file.Path;
 import javax.swing.*;
 
 public class EDCipherMain extends JFrame implements ActionListener {
-//    static IKey key;
     static String keyString;
     static Path inputTextPath;
-//    static String outputFile;
     static File outputFile;
-    static ShiftCipher shiftCipher;
-    static SubstitutionCipher substitutionCipher;
-
-//    static JLabel l;
 
     EDCipherMain() {
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -115,32 +110,26 @@ public class EDCipherMain extends JFrame implements ActionListener {
                     } catch (NumberFormatException nfe) {
                         throw new NumberFormatException("NumberFormatException occurred");
                     }
-                    String cipherText;
+                    String outputText;
 
                     switch(list.getSelectedValue()) {
                         case "Shift Cipher":
-                            ShiftKey shiftKey = new ShiftKey();
-                            shiftKey.setKey(keyString, "Shift Cipher");
-                            shiftCipher = new ShiftCipher(shiftKey);
-                            outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
-                            cipherText = shiftCipher.encrypt(inputTextPath);
+                            outputText = encryptFile(keyString, KeyType.ShiftCipher);
                             break;
                         case "Substitution Cipher":
-                            SubstitutionKey substitutionKey = new SubstitutionKey();
-                            substitutionKey.setKey(keyString, "Substitution Cipher");
-                            substitutionCipher = new SubstitutionCipher(substitutionKey);
-                            outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
-                            cipherText = substitutionCipher.encrypt(inputTextPath);
+                            outputText = encryptFile(keyString, KeyType.SubstitutionCipher);
                             break;
                         default:
                             throw new IllegalStateException("wrong selected cipher");
                     }
 
+                    outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
                     try {
-                        FileWriter cwr = new FileWriter(outputFile);
-                        cwr.write(cipherText);
-                        cwr.flush();
-                        cwr.close();
+                        FileWriter wr = new FileWriter(outputFile);
+                        assert outputText != null;
+                        wr.write(outputText);
+                        wr.flush();
+                        wr.close();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -158,32 +147,26 @@ public class EDCipherMain extends JFrame implements ActionListener {
                     } catch (NumberFormatException nfe) {
                         throw new NumberFormatException("NumberFormatException occurred");
                     }
-                    String plainText;
+                    String outputText;
 
                     switch(list.getSelectedValue()) {
                         case "Shift Cipher":
-                            ShiftKey shiftKey = new ShiftKey();
-                            shiftKey.setKey(keyString, "Shift Cipher");
-                            shiftCipher = new ShiftCipher(shiftKey);
-                            outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
-                            plainText = shiftCipher.decrypt(inputTextPath);
+                            outputText = decryptFile(keyString, KeyType.ShiftCipher);
                             break;
                         case "Substitution Cipher":
-                            SubstitutionKey substitutionKey = new SubstitutionKey();
-                            substitutionKey.setKey(keyString, "Substitution Cipher");
-                            substitutionCipher = new SubstitutionCipher(substitutionKey);
-                            outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
-                            plainText = substitutionCipher.decrypt(inputTextPath);
+                            outputText = decryptFile(keyString, KeyType.SubstitutionCipher);
                             break;
                         default:
                             throw new IllegalStateException("wrong selected cipher");
                     }
 
+                    outputFile = new File(System.getProperty("user.dir") + "\\" + outputTextField.getText() + ".txt");
                     try {
-                        FileWriter dwr = new FileWriter(outputFile);
-                        dwr.write(plainText);
-                        dwr.flush();
-                        dwr.close();
+                        FileWriter wr = new FileWriter(outputFile);
+                        assert outputText != null;
+                        wr.write(outputText);
+                        wr.flush();
+                        wr.close();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -206,6 +189,40 @@ public class EDCipherMain extends JFrame implements ActionListener {
         frame.setLayout(null);
         frame.setVisible(true);
 
+    }
+
+    public static String encryptFile(String keyString, KeyType type) {
+        switch (type) {
+            case ShiftCipher:
+                ShiftKey shiftKey = new ShiftKey();
+                shiftKey.setKey(keyString, "Shift Cipher");
+                ShiftCipher shiftCipher = new ShiftCipher(shiftKey);
+                return shiftCipher.encrypt(inputTextPath);
+            case SubstitutionCipher:
+                SubstitutionKey substitutionKey = new SubstitutionKey();
+                substitutionKey.setKey(keyString, "Shift Cipher");
+                SubstitutionCipher substitutionCypher = new SubstitutionCipher(substitutionKey);
+                return substitutionCypher.encrypt(inputTextPath);
+            default:
+                return null;
+        }
+    }
+
+    public static String decryptFile(String keyString, KeyType type) {
+        switch (type) {
+            case ShiftCipher:
+                ShiftKey shiftKey = new ShiftKey();
+                shiftKey.setKey(keyString, "Shift Cipher");
+                ShiftCipher shiftCipher = new ShiftCipher(shiftKey);
+                return shiftCipher.decrypt(inputTextPath);
+            case SubstitutionCipher:
+                SubstitutionKey substitutionKey = new SubstitutionKey();
+                substitutionKey.setKey(keyString, "Shift Cipher");
+                SubstitutionCipher substitutionCypher = new SubstitutionCipher(substitutionKey);
+                return substitutionCypher.decrypt(inputTextPath);
+            default:
+                return null;
+        }
     }
 
     @Override

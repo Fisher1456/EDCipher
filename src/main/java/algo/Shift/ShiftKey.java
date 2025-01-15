@@ -1,13 +1,11 @@
-package algo.ShiftCipher;
+package algo.Shift;
 
-import algo.Cipher;
 import algo.IKey;
-import algo.Key;
 import algo.KeyType;
 import util.CharInt;
 import util.WrapAround;
 
-public class ShiftKey extends Key implements IKey {
+public class ShiftKey implements IKey {
     private KeyType keyType = null;
     private int shift = -1;
 
