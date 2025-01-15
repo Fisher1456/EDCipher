@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public abstract class Cipher implements ICipher {
-//    public static final int CAPITAL_MIN = 0;
+    public static final int CAPITAL_MIN = 0;
     public static final int CAPITAL_MAX = 26;
     public static final int LOWER_CASE_MIN = 100;
     public static final int LOWER_CASE_MAX = 126;
@@ -14,14 +14,10 @@ public abstract class Cipher implements ICipher {
     public static final int DIGIT_MAX = 210;
 
     @Override
-    public String encrypt(Path plainTextFile) {
-        return "";
-    }
+    public abstract String encrypt(Path plainTextFile);
 
     @Override
-    public String decrypt(Path cipherTextFile) {
-        return "";
-    }
+    public abstract String decrypt(Path cipherTextFile);
 
     public static String fileToString(Path inputFile) {
         StringBuilder builder = new StringBuilder();
