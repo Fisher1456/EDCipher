@@ -35,6 +35,14 @@ public class CharInt {
         return index;
     }
 
+    public String getHex() {
+        if (index < 0 || index > 25) {
+            throw new IllegalArgumentException("index value incorrect: " + index);
+        }
+
+        return toHex(letter);
+    }
+
     public void shiftBy(int shift) {
         index += shift;
         index = WrapAround.wrap(index);
@@ -180,5 +188,65 @@ public class CharInt {
             case 209 -> '9';
             default -> '!';
         };
+    }
+
+    private static String toHex(char c) {
+        return switch (c) {
+            case 'A' -> "00";
+            case 'B' -> "01";
+            case 'C' -> "02";
+            case 'D' -> "03";
+            case 'E' -> "04";
+            case 'F' -> "05";
+            case 'G' -> "06";
+            case 'H' -> "07";
+            case 'I' -> "08";
+            case 'J' -> "09";
+            case 'K' -> "0A";
+            case 'L' -> "0B";
+            case 'M' -> "0C";
+            case 'N' -> "0D";
+            case 'O' -> "0E";
+            case 'P' -> "0F";
+            case 'Q' -> "10";
+            case 'R' -> "11";
+            case 'S' -> "12";
+            case 'T' -> "13";
+            case 'U' -> "14";
+            case 'V' -> "15";
+            case 'W' -> "16";
+            case 'X' -> "17";
+            case 'Y' -> "18";
+            case 'Z' -> "19";
+            default -> throw new IllegalStateException("Unexpected value: " + c);
+        };
+    }
+
+    public static String toBinary(String hex) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < hex.length(); i ++) {
+            sb.append(
+                switch (String.valueOf(hex.charAt(i))) {
+                    case "0" -> "0000";
+                    case "1" -> "0001";
+                    case "2" -> "0010";
+                    case "3" -> "0011";
+                    case "4" -> "0100";
+                    case "5" -> "0101";
+                    case "6" -> "0110";
+                    case "7" -> "0111";
+                    case "8" -> "1000";
+                    case "9" -> "1001";
+                    case "A" -> "1010";
+                    case "B" -> "1011";
+                    case "C" -> "1100";
+                    case "D" -> "1101";
+                    case "E" -> "1110";
+                    case "F" -> "1111";
+                    default -> throw new IllegalStateException("Unexpected value: " + hex);
+                }
+            );
+        }
+        return sb.toString();
     }
 }
